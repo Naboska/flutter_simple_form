@@ -68,6 +68,8 @@ class SFormState {
     this.submitCount = 0,
   });
 
+  /// An internal method for copying the form state,
+  /// you probably won't need it.
   SFormState copyWith({
     bool? isDirty,
     bool? isSubmitting,
@@ -84,6 +86,7 @@ class SFormState {
     );
   }
 
+  /// Displays information about the current state of the form.
   @override
   String toString() {
     return '''
