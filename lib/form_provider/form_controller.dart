@@ -1,4 +1,4 @@
-part of 'provider.dart';
+part of 'form_provider.dart';
 
 class SFormController {
   final _stateSubject = SFormStateSubject();
