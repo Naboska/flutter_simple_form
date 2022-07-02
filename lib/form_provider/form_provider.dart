@@ -1,8 +1,16 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart'
+    show
+        StatefulWidget,
+        InheritedWidget,
+        Widget,
+        BuildContext,
+        State,
+        InheritedNotifier;
 
 import '../subjects/subjects.dart';
 
 part 'form_controller.dart';
+part 'form_state_provider.dart';
 
 class FormProvider extends StatefulWidget {
   final Widget child;
@@ -66,13 +74,4 @@ class _FormProviderState extends State<FormProvider> {
       child: widget.child,
     );
   }
-}
-
-class _FormStateProvider extends InheritedNotifier {
-  final SFormController controller;
-
-  _FormStateProvider({
-    required this.controller,
-    required super.child,
-  }) : super(notifier: controller._stateSubject);
 }

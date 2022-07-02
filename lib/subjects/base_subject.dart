@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart'
+    show ObserverList, VoidCallback, ValueListenable, protected;
 
 abstract class BaseSubject<T> implements ValueListenable<T?> {
   final ObserverList<VoidCallback> _listeners = ObserverList<VoidCallback>();
@@ -7,7 +8,8 @@ abstract class BaseSubject<T> implements ValueListenable<T?> {
 
   /// The current value of the subject.
   ///
-  /// Setting a new value puts the old value in [prevValue] and makes the subject dirty [isDirty].
+  /// Setting a new value puts the old value in [prevValue] and makes
+  /// the subject dirty [isDirty].
   @override
   T? get value => _value;
   T? _value;
