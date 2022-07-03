@@ -68,7 +68,7 @@ class _InheritedFieldsElement extends InheritedElement {
 
   void _notify(String name) {
     _dirty[name] = true;
-    super.notifyClients(widget);
+    notifyClients(widget);
 
     _dirty[name] = false;
   }
