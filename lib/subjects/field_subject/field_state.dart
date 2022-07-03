@@ -1,5 +1,6 @@
 part of 'field_subject.dart';
 
+/// The field state model. Controlled via [SFormFieldSubject].
 class SFormFieldState<T> {
   /// The current value for the field, can be null or [T].
   ///

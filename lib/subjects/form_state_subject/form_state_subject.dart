@@ -2,6 +2,7 @@ import '../base_subject.dart';
 
 part 'form_state.dart';
 
+/// Required to manage the state of the form [SFormState].
 class SFormStateSubject extends BaseSubject<SFormState> {
   static const SFormState _initialValue = SFormState();
 

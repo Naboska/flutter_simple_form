@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart'
     show ObserverList, VoidCallback, ValueListenable, protected;
 
+/// Allows you to create subscriptions to change the value.
 abstract class BaseSubject<T> implements ValueListenable<T> {
   final ObserverList<VoidCallback> _listeners = ObserverList<VoidCallback>();
 
