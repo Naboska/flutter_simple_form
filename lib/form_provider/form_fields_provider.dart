@@ -10,10 +10,7 @@ class _FormFieldsProvider extends InheritedWidget {
   }) : super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(_FormFieldsProvider oldWidget) => false;
-
-  @override
-  _InheritedFieldsElement createElement() => _InheritedFieldsElement(this);
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
 }
 
 class _InheritedFieldsElement extends InheritedElement {
@@ -30,10 +27,32 @@ class _InheritedFieldsElement extends InheritedElement {
   SFormController get controller => widget.controller;
 
   @override
+  void updateDependencies(Element dependent, Object? aspect) {
+    print('rrr');
+    final dependencies = getDependencies(dependent) as Set<String>?;
+    if (dependencies != null && dependencies.isEmpty) return;
+
+    if (aspect == null) {
+      setDependencies(dependent, HashSet<String>());
+    } else {
+      final deps = (dependencies ?? HashSet<String>())
+        ..addAll(aspect as Set<String>);
+      setDependencies(dependent, deps);
+    }
+  }
+
+  @override
+  void notifyClients(InheritedWidget oldWidget) {
+    super.notifyClients(oldWidget);
+    _dirty.forEach((key, value) => _dirty[key] = false);
+  }
+
+  @override
   void notifyDependent(
     covariant _FormFieldsProvider oldWidget,
     Element dependent,
   ) {
+    print('this');
     final aspects = getDependencies(dependent) as Set<String>?;
     if (aspects == null) return;
 
@@ -61,9 +80,7 @@ class _InheritedFieldsElement extends InheritedElement {
 
   void _notify(String name) {
     _dirty[name] = true;
-    notifyClients(widget);
-
-    _dirty[name] = false;
+    markNeedsBuild();
   }
 
   void _updateFields() {
@@ -74,9 +91,17 @@ class _InheritedFieldsElement extends InheritedElement {
 
       final field = fields.value[name]!;
       _dirty[name] = false;
-      _prevValues[name] = field.value;
       final notify = _fieldsObservers[name] = () => _notify(name);
       field.addListener(notify);
     }
+  }
+
+  @override
+  Widget build() {
+    if (_dirty.values.any((isDirty) => isDirty)) {
+      notifyClients(widget);
+    }
+
+    return super.build();
   }
 }

@@ -20,7 +20,8 @@ class SFormController {
     SFormValidationHandler? validate,
   }) : assert(
           (validationResolver != null && validate == null) ||
-              (validate != null && validationResolver == null),
+              (validate != null && validationResolver == null) ||
+              (validate == null && validationResolver == null),
           'it is necessary to initialize either validationResolver or validate',
         ) {
     if (validationResolver != null) {
@@ -30,6 +31,8 @@ class SFormController {
         validator: null,
         validate: validate,
       );
+    } else {
+      this.validationResolver = null;
     }
 
     initialValues?.forEach((key, _) => register(key));
@@ -49,7 +52,7 @@ class SFormController {
 
     field = fieldsSubject.createField(name, initialValues?[name]);
 
-    fieldsSubject.addListener(() {
+    field.addListener(() {
       final field = fieldsSubject.getField(name);
       if (field == null || !field.isDirty) return;
 
