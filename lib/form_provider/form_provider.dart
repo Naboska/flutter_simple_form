@@ -39,6 +39,12 @@ class FormProvider extends StatefulWidget {
     return _read<_FormStateProvider>(context).controller.state;
   }
 
+  static fieldsOf(BuildContext context, {Set<String>? aspect}) {
+    return context.dependOnInheritedWidgetOfExactType<_FormFieldsProvider>(
+      aspect: aspect ?? <String>{},
+    );
+  }
+
   static T _watch<T extends InheritedWidget>(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<T>();
 
