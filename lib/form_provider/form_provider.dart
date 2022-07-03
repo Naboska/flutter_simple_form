@@ -29,12 +29,8 @@ class FormProvider extends StatefulWidget {
                 (controller != null && create == null),
             'you need to choose one thing, either the controller or the create');
 
-  static T _watch<T extends InheritedWidget>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<T>()!;
-  }
-
-  static T _read<T extends InheritedWidget>(BuildContext context) {
-    return context.getElementForInheritedWidgetOfExactType<T>()!.widget as T;
+  static SFormController of(BuildContext context) {
+    return _read<_FormStateProvider>(context).controller;
   }
 
   static SFormState stateOf(BuildContext context, {bool? watch}) {
@@ -43,6 +39,22 @@ class FormProvider extends StatefulWidget {
     }
 
     return _read<_FormStateProvider>(context).controller.state;
+  }
+
+  static T _watch<T extends InheritedWidget>(BuildContext context) {
+    final result = context.dependOnInheritedWidgetOfExactType<T>();
+
+    assert(result != null, 'No $T found in context');
+
+    return result!;
+  }
+
+  static T _read<T extends InheritedWidget>(BuildContext context) {
+    final result = context.getElementForInheritedWidgetOfExactType<T>();
+
+    assert(result != null, 'No $T found in context');
+
+    return result!.widget as T;
   }
 
   @override

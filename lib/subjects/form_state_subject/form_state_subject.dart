@@ -7,19 +7,9 @@ class SFormStateSubject extends BaseSubject<SFormState> {
 
   SFormStateSubject() : super(_initialValue);
 
-  /// Current state of the form.
-  @override
-  SFormState get value => super.value!;
-
-  /// Previous state of the form.
-  @override
-  SFormState get prevValue => super.prevValue!;
-
   /// Sets the dirty value of the form before updating.
   @override
-  set value(SFormState? newValue) {
-    newValue = newValue ?? _initialValue;
-
+  set value(SFormState newValue) {
     if (!newValue.isDirty) {
       newValue = newValue.copyWith(isDirty: true);
     }

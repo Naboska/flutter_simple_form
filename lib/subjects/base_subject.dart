@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart'
     show ObserverList, VoidCallback, ValueListenable, protected;
 
-abstract class BaseSubject<T> implements ValueListenable<T?> {
+abstract class BaseSubject<T> implements ValueListenable<T> {
   final ObserverList<VoidCallback> _listeners = ObserverList<VoidCallback>();
 
   BaseSubject(this._value) : _prevValue = _value;
@@ -11,12 +11,12 @@ abstract class BaseSubject<T> implements ValueListenable<T?> {
   /// Setting a new value puts the old value in [prevValue] and makes
   /// the subject dirty [isDirty].
   @override
-  T? get value => _value;
-  T? _value;
+  T get value => _value;
+  T _value;
 
   /// Listeners will receive an alert even if the value has not been changed.
   @protected
-  set value(T? newValue) {
+  set value(T newValue) {
     _prevValue = _value;
     _value = newValue;
     _isDirty = true;
@@ -45,7 +45,7 @@ abstract class BaseSubject<T> implements ValueListenable<T?> {
   ///
   /// If a [resetValue] is specified, the method will set them as default
   /// values in [value] and [prevValue].
-  void reset([T? resetValue]) {
+  void reset(T resetValue) {
     _isDirty = false;
     _prevValue = resetValue;
     _value = resetValue;
