@@ -19,7 +19,6 @@ class _FormFieldsProvider extends InheritedWidget {
 class _InheritedFieldsElement extends InheritedElement {
   final _fieldsObservers = HashMap<String, VoidCallback>();
   final _dirty = <String, bool>{};
-  final _prevValues = <String, SFormFieldState>{};
 
   _InheritedFieldsElement(_FormFieldsProvider widget) : super(widget) {
     widget.controller.fieldsSubject.addListener(_updateFields);
@@ -56,14 +55,8 @@ class _InheritedFieldsElement extends InheritedElement {
   bool _maybeUpdate(String name) {
     final isDirty = _dirty[name] ?? false;
     final field = controller.fieldsSubject.getField(name);
-    if (!isDirty || field == null) return false;
 
-    final prevValue = _prevValues[name];
-    final isUpdate = !field.value.isEqual(prevValue);
-
-    if (isUpdate) _prevValues[name] = field.value;
-
-    return isUpdate;
+    return isDirty || field != null;
   }
 
   void _notify(String name) {
