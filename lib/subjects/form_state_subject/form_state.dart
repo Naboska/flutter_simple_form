@@ -1,5 +1,6 @@
 part of 'form_state_subject.dart';
 
+/// The model of the form state. Controlled via [SFormStateSubject].
 class SFormState {
   /// If changes were made to the form, the value will become `true`.
   ///

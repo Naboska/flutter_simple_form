@@ -2,15 +2,15 @@ import '../base_subject.dart';
 
 part 'field_state.dart';
 
+/// Required to manage the state of the field [SFormFieldState].
 class SFormFieldSubject<T> extends BaseSubject<SFormFieldState<T>> {
   /// Initial value for the field value.
   ///
   /// It is also set when calling the [reset] method.
   final T? initialValue;
 
-  SFormFieldSubject({
-    this.initialValue,
-  }) : super(SFormFieldState<T>(value: initialValue));
+  SFormFieldSubject(this.initialValue)
+      : super(SFormFieldState<T>(value: initialValue));
 
   /// An internal method for monitoring the new state.
   ///
