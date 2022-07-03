@@ -1,4 +1,4 @@
-part of 'form_field_subject.dart';
+part of 'field_subject.dart';
 
 class SFormFieldState<T> {
   /// The current value for the field, can be null or [T].
@@ -10,7 +10,7 @@ class SFormFieldState<T> {
   /// Method [SFormFieldSubject.setValue] allows you to set a new value.
   ///
   /// Method [SFormFieldSubject.reset] resets the value to the default.
-  final T? state;
+  final T? value;
 
   /// The error message that the field received after validation
   /// or after manual installation.
@@ -39,17 +39,19 @@ class SFormFieldState<T> {
   final bool isDirty;
 
   /// Shows whether the field was visited. It is set only manually,
-  /// usually after the user has lost focus from the field
+  /// usually after the user has lost focus from the field.
   ///
   /// Default: `false`
   ///
   /// See also:
   ///
+  /// Method [SFormFieldSubject.touch] manages this value.
+  ///
   /// Method [SFormFieldSubject.reset] resets the value to the default.
   final bool isTouched;
 
   const SFormFieldState({
-    this.state,
+    this.value,
     this.errorMessage,
     this.isDirty = false,
     this.isTouched = false,
@@ -58,13 +60,13 @@ class SFormFieldState<T> {
   /// An internal method for copying the field state,
   /// you probably won't need it.
   SFormFieldState<T> copyWith({
-    T? state,
+    T? value,
     String? errorMessage,
     bool? isDirty,
     bool? isTouched,
   }) {
     return SFormFieldState(
-      state: state,
+      value: value,
       errorMessage: errorMessage,
       isDirty: isDirty ?? this.isDirty,
       isTouched: isTouched ?? this.isTouched,
@@ -77,7 +79,7 @@ class SFormFieldState<T> {
     return '''
 ---------------------------------
 SFormFieldState<$T>:
--state: $state
+-value: $value
 -errorMessage: $errorMessage  
 -isDirty: $isDirty
 -isTouched: $isTouched
