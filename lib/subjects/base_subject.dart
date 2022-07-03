@@ -26,8 +26,8 @@ abstract class BaseSubject<T> implements ValueListenable<T> {
   }
 
   /// The previous value of the subject.
-  T? get prevValue => _prevValue;
-  T? _prevValue;
+  T get prevValue => _prevValue;
+  T _prevValue;
 
   /// If the subject has been modified, the value will be set to `true`.
   bool get isDirty => _isDirty;
@@ -38,6 +38,8 @@ abstract class BaseSubject<T> implements ValueListenable<T> {
 
   /// Close the current subject.
   void close() {
+    if (isClose) return;
+
     isClose = true;
     _listeners.clear();
   }

@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart'
         BuildContext,
         State,
         InheritedNotifier;
+import 'package:flutter_simple_form/types.dart';
+import 'package:flutter_simple_form/utils/utils.dart';
 
 import '../subjects/subjects.dart';
 
