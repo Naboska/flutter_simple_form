@@ -3,17 +3,14 @@ import 'package:flutter_simple_form/types.dart';
 import '../subjects.dart';
 
 /// Required for tracking new fields in the form [SFormFieldSubject].
-class SFormFieldsSubject extends BaseSubject<SFormFields> {
+class SFormFieldsSubject extends BaseSubject<SFormFieldsSubjects> {
   SFormFieldsSubject() : super(<String, SFormFieldSubject>{});
 
   /// Creates a new field in the form, but does not notify subscribers.
   ///
   /// If the field already exists, it will return its subject.
-  SFormFieldSubject createField({
-    required String name,
-    dynamic initialValue,
-  }) {
-    SFormFieldSubject? field = getField(name);
+  SFormFieldSubject createField(String name, [dynamic initialValue]) {
+    final field = getField(name);
 
     if (field != null) return field;
 
