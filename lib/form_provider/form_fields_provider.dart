@@ -10,7 +10,10 @@ class _FormFieldsProvider extends InheritedWidget {
   }) : super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_FormFieldsProvider oldWidget) => false;
+
+  @override
+  _InheritedFieldsElement createElement() => _InheritedFieldsElement(this);
 }
 
 class _InheritedFieldsElement extends InheritedElement {
@@ -28,7 +31,6 @@ class _InheritedFieldsElement extends InheritedElement {
 
   @override
   void updateDependencies(Element dependent, Object? aspect) {
-    print('rrr');
     final dependencies = getDependencies(dependent) as Set<String>?;
     if (dependencies != null && dependencies.isEmpty) return;
 
@@ -52,7 +54,6 @@ class _InheritedFieldsElement extends InheritedElement {
     covariant _FormFieldsProvider oldWidget,
     Element dependent,
   ) {
-    print('this');
     final aspects = getDependencies(dependent) as Set<String>?;
     if (aspects == null) return;
 
@@ -75,7 +76,7 @@ class _InheritedFieldsElement extends InheritedElement {
     final isDirty = _dirty[name] ?? false;
     final field = controller.fieldsSubject.getField(name);
 
-    return isDirty || field != null;
+    return isDirty && field != null;
   }
 
   void _notify(String name) {
