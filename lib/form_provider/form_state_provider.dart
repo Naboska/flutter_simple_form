@@ -6,5 +6,5 @@ class _FormStateProvider extends InheritedNotifier {
   _FormStateProvider({
     required this.controller,
     required super.child,
-  }) : super(notifier: controller._stateSubject);
+  }) : super(notifier: controller.stateSubject);
 }
