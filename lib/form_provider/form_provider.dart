@@ -1,17 +1,13 @@
-import 'package:flutter/widgets.dart'
-    show
-        StatefulWidget,
-        InheritedWidget,
-        Widget,
-        BuildContext,
-        State,
-        InheritedNotifier;
+import 'dart:collection';
+
+import 'package:flutter/widgets.dart';
 import 'package:flutter_simple_form/types.dart';
 import 'package:flutter_simple_form/utils/utils.dart';
 
 import '../subjects/subjects.dart';
 
 part 'form_controller.dart';
+part 'form_fields_provider.dart';
 part 'form_state_provider.dart';
 
 class FormProvider extends StatefulWidget {
@@ -85,7 +81,10 @@ class _FormProviderState extends State<FormProvider> {
   Widget build(BuildContext context) {
     return _FormStateProvider(
       controller: _formController,
-      child: widget.child,
+      child: _FormFieldsProvider(
+        controller: _formController,
+        child: widget.child,
+      ),
     );
   }
 }

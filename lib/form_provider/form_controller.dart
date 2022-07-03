@@ -1,15 +1,15 @@
 part of 'form_provider.dart';
 
 class SFormController {
-  final _stateSubject = SFormStateSubject();
-  final _fieldsSubject = SFormFieldsSubject();
+  final stateSubject = SFormStateSubject();
+  final fieldsSubject = SFormFieldsSubject();
   final SFormValues? initialValues;
   late final SFormValidationResolver? validationResolver;
 
-  SFormState get state => _stateSubject.value;
+  SFormState get state => stateSubject.value;
 
   SFormFields get fields =>
-      _fieldsSubject.value.map((name, field) => MapEntry(name, field.value));
+      fieldsSubject.value.map((name, field) => MapEntry(name, field.value));
 
   SFormValues get values =>
       fields.map((name, state) => MapEntry(name, state.value));
@@ -36,21 +36,21 @@ class SFormController {
   }
 
   void dispose() {
-    for (final field in _fieldsSubject.value.values) {
+    for (final field in fieldsSubject.value.values) {
       field.close();
     }
-    _fieldsSubject.close();
-    _stateSubject.close();
+    fieldsSubject.close();
+    stateSubject.close();
   }
 
   SFormFieldSubject register(String name) {
-    SFormFieldSubject? field = _fieldsSubject.getField(name);
+    SFormFieldSubject? field = fieldsSubject.getField(name);
     if (field != null) return field;
 
-    field = _fieldsSubject.createField(name, initialValues?[name]);
+    field = fieldsSubject.createField(name, initialValues?[name]);
 
-    _fieldsSubject.addListener(() {
-      final field = _fieldsSubject.getField(name);
+    fieldsSubject.addListener(() {
+      final field = fieldsSubject.getField(name);
       if (field == null || !field.isDirty) return;
 
       final state = field.value;
@@ -58,12 +58,12 @@ class SFormController {
       final bool isValueChanged = state.value != prevState.value;
       final bool isTouched = state.isTouched != prevState.isTouched;
 
-      _stateSubject.handleDirty();
+      stateSubject.handleDirty();
 
       if (isValueChanged || isTouched) triggerValidate();
     });
 
-    Future.microtask(_fieldsSubject.notifyListeners);
+    Future.microtask(fieldsSubject.notifyListeners);
 
     return field;
   }
@@ -76,14 +76,14 @@ class SFormController {
     final isValid = name == null ? errors.isEmpty : errors[name] == null;
 
     if (name == null) {
-      for (String fieldName in _fieldsSubject.value.keys) {
+      for (String fieldName in fieldsSubject.value.keys) {
         setError(fieldName, message: errors[fieldName]);
       }
     } else {
       setError(name, message: errors[name]);
     }
 
-    _stateSubject.setValid(errors.isEmpty);
+    stateSubject.setValid(errors.isEmpty);
 
     return isValid;
   }
@@ -119,26 +119,26 @@ class SFormController {
   }
 
   void touchField(String name) {
-    final field = _fieldsSubject.getField(name);
+    final field = fieldsSubject.getField(name);
     if (field == null) return;
 
     field.touch();
   }
 
   void resetField(String name, [dynamic initialValue]) {
-    final field = _fieldsSubject.getField(name);
+    final field = fieldsSubject.getField(name);
     if (field == null) return;
 
     field.reset(initialValue);
   }
 
   void reset({SFormValues? values}) {
-    final fields = _fieldsSubject.value;
+    final fields = fieldsSubject.value;
 
     for (final name in fields.keys) {
       resetField(name, values?[name]);
     }
 
-    _stateSubject.reset();
+    stateSubject.reset();
   }
 }

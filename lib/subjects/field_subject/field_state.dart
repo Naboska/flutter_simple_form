@@ -74,6 +74,13 @@ class SFormFieldState<T> {
     );
   }
 
+  bool isEqual(SFormFieldState? fieldState) {
+    return value == fieldState?.value &&
+        errorMessage == fieldState?.errorMessage &&
+        isDirty == fieldState?.isDirty &&
+        isTouched == fieldState?.isTouched;
+  }
+
   /// Displays information about the current state of the field.
   @override
   String toString() {
