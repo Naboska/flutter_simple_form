@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart'
 
 /// Allows you to create subscriptions to change the value.
 abstract class BaseSubject<T> implements ValueListenable<T> {
-  final ObserverList<VoidCallback> _listeners = ObserverList<VoidCallback>();
+  late final ObserverList<VoidCallback> _listeners;
 
-  BaseSubject(this._value) : _prevValue = _value;
+  BaseSubject(this._value)
+      : _prevValue = _value,
+        _listeners = ObserverList<VoidCallback>();
 
   /// The current value of the subject.
   ///
@@ -13,7 +15,7 @@ abstract class BaseSubject<T> implements ValueListenable<T> {
   /// the subject dirty [isDirty].
   @override
   T get value => _value;
-  T _value;
+  late T _value;
 
   /// Listeners will receive an alert even if the value has not been changed.
   @protected
@@ -27,7 +29,7 @@ abstract class BaseSubject<T> implements ValueListenable<T> {
 
   /// The previous value of the subject.
   T get prevValue => _prevValue;
-  T _prevValue;
+  late T _prevValue;
 
   /// If the subject has been modified, the value will be set to `true`.
   bool get isDirty => _isDirty;
