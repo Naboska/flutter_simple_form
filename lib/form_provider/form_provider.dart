@@ -31,7 +31,7 @@ class FormProvider extends StatefulWidget {
     return _read<_FormStateProvider>(context).controller;
   }
 
-  static SFormState stateOf(BuildContext context, {bool? watch}) {
+  static SFormState stateOf(BuildContext context, [bool? watch]) {
     if (watch ?? true) {
       return _watch<_FormStateProvider>(context).controller.state;
     }
@@ -39,15 +39,23 @@ class FormProvider extends StatefulWidget {
     return _read<_FormStateProvider>(context).controller.state;
   }
 
-  static fieldsOf(BuildContext context, {Set<String>? aspect}) {
-    return context.dependOnInheritedWidgetOfExactType<_FormFieldsProvider>(
-      aspect: aspect ?? <String>{},
-    );
+  static SFormFields fieldsOf(BuildContext context, [Set<String>? fields]) {
+    final result = _watch<_FormFieldsProvider>(context, fields ?? <String>{});
+
+    return result.controller.fields;
   }
 
-  static T _watch<T extends InheritedWidget>(BuildContext context) {
-    final result = context.dependOnInheritedWidgetOfExactType<T>();
+  static SFormValues valuesOf(BuildContext context, [Set<String>? fields]) {
+    final result = _watch<_FormFieldsProvider>(context, fields ?? <String>{});
 
+    return result.controller.values;
+  }
+
+  static T _watch<T extends InheritedWidget>(
+    BuildContext context, [
+    Set<String>? asp,
+  ]) {
+    final result = context.dependOnInheritedWidgetOfExactType<T>(aspect: asp);
     assert(result != null, 'No $T found in context');
 
     return result!;
@@ -55,7 +63,6 @@ class FormProvider extends StatefulWidget {
 
   static T _read<T extends InheritedWidget>(BuildContext context) {
     final result = context.getElementForInheritedWidgetOfExactType<T>();
-
     assert(result != null, 'No $T found in context');
 
     return result!.widget as T;
