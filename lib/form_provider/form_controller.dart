@@ -45,9 +45,7 @@ class SFormController {
   /// Getter for the state of the form [SFormState].
   SFormState get state => stateSubject.value;
 
-  /// Getter for getting the state of fields.
-  ///
-  /// Contains [Map] ([String] = [SFormFieldState]).
+  /// Getter for getting the state of fields [SFormFields].
   SFormFields get fields =>
       fieldsSubject.value.map((name, field) => MapEntry(name, field.value));
 
@@ -56,13 +54,8 @@ class SFormController {
       .map((name, state) => MapEntry(name, state.value.value));
 
   SFormController({
-    /// See [initialValues].
     this.initialValues,
-
-    /// See [validationResolver].
     SFormValidationResolver? validationResolver,
-
-    /// See [validationResolver].
     SFormValidationHandler? validate,
   }) : assert(
           (validationResolver != null && validate == null) ||
