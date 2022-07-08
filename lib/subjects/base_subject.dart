@@ -3,11 +3,9 @@ import 'package:flutter/foundation.dart'
 
 /// Allows you to create subscriptions to change the value.
 abstract class BaseSubject<T> implements ValueListenable<T> {
-  late final ObserverList<VoidCallback> _listeners;
+  final _listeners = ObserverList<VoidCallback>();
 
-  BaseSubject(this._value)
-      : _prevValue = _value,
-        _listeners = ObserverList<VoidCallback>();
+  BaseSubject(this._value) : _prevValue = _value;
 
   /// The current value of the subject.
   ///

@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_simple_form/flutter_simple_form.dart';
 
-part 'form_controller.dart';
 part 'form_fields_provider.dart';
 part 'form_state_provider.dart';
 
