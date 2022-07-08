@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_simple_form/flutter_simple_form.dart';
-import 'package:flutter_simple_form/types.dart';
 
 /// {@template flutter_simple_form.validation_resolver}
 /// Validation resolver for your form. When creating your resolver, you
