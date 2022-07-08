@@ -58,6 +58,12 @@ class SFormFieldState<T> {
     this.isTouched = false,
   }) : isValid = errorMessage == null;
 
+  /// Another method for getting the value is needed for point
+  /// typing of the [value].
+  ///
+  /// If the types don't match, the method returns an error.
+  X getValue<X extends T>() => value as X;
+
   /// An internal method for copying the field state,
   /// you probably won't need it.
   SFormFieldState<T> copyWith({
