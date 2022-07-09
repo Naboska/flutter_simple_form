@@ -6,6 +6,32 @@ import 'package:flutter_simple_form/flutter_simple_form.dart';
 typedef SWatchListener = void Function(SFormValues values);
 
 /// Notifies about field changes.
+///
+/// ### Example
+///
+/// ```dart
+/// class NameOfState extends State<StatefulWidget> {
+///   late final SWatchController _watchController;
+///
+///   @override
+///   void initState() {
+///     super.initState();
+///
+///     _watchController = SWatchController(context)
+///       ..watch({'name'}, listener)
+///       ..watch({'name', 'name2'}, listener2)
+///       ..watch({'name3', 'name2'}, listener3)
+///       ..watchAll(listener4);
+///   }
+///
+///   @override
+///   void dispose() {
+///     _watchController.dispose();
+///
+///     super.dispose();
+///   }
+/// }
+/// ```
 class SWatchController {
   late final SFormController _controller;
   final _watch = <String, ObserverList<SWatchListener>>{};
@@ -27,6 +53,7 @@ class SWatchController {
   /// Listens to one or more fields.
   void watch(Set<String> fields, SWatchListener listener) {
     assert(!_isDispose, 'You can`t subscribe after call dispose');
+    assert(fields.isNotEmpty, 'You must select at least one field');
 
     for (final name in fields) {
       (_watch[name] ??= ObserverList<SWatchListener>()).add(listener);

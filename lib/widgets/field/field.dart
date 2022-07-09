@@ -6,6 +6,38 @@ part 'types.dart';
 /// Creating and managing a field.
 ///
 /// Creates a new field if it is not registered.
+///
+/// ### Example
+///
+/// ```dart
+/// class ColorField extends StatelessWidget {
+///   const ColorField({Key? key}) : super(key: key);
+///
+///   @override
+///   Widget build(BuildContext context) {
+///     return SField<Color>(
+///       name: 'color',
+///       builder: (context, field, formState) {
+///         final color = field.state.value;
+///
+///         return GestureDetector(
+///           onTap: () {
+///             const white = Color(0xFFFFFFFF);
+///
+///             field.setValue(color == white ? const Color(0xFF000000) : white);
+///             field.touch();
+///           },
+///           child: Container(
+///             width: 100,
+///             height: 100,
+///             color: color ?? const Color(0xFF424242),
+///           ),
+///         );
+///       },
+///     );
+///   }
+/// }
+/// ```
 class SField<T> extends StatelessWidget {
   /// Name of the field in the form.
   final String name;

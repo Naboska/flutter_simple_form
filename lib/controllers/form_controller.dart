@@ -4,6 +4,23 @@ import 'package:flutter_simple_form/flutter_simple_form.dart';
 ///
 /// Used to safely change the state of the form [SFormController.state] and
 /// the state of the fields [SFormController.fields].
+///
+/// ### Example
+///
+/// ```dart
+/// final controller = SFormController(
+///   initialValues: {
+///     'name': 'Alex',
+///   },
+///   validate: (SFormValues values) async {
+///     final errors = <String, String>{};
+///
+///     if (values['name'] == null) errors['name'] = 'required';
+///
+///     return null;
+///   }
+/// );
+/// ```
 class SFormController {
   /// Form state [SFormState] management.
   ///
