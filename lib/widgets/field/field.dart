@@ -6,9 +6,6 @@ part 'types.dart';
 /// Creating and managing a field.
 ///
 /// Creates a new field if it is not registered.
-///
-/// Uses a [SFieldProxy] for management, if the field can be `null` it must be
-/// specified exactly. Example: `SField<String?>`.
 class SField<T> extends StatelessWidget {
   /// Name of the field in the form.
   final String name;
