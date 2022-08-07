@@ -1,20 +1,27 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_simple_form/flutter_simple_form.dart';
 
+typedef TFieldWidgetBuilder<T> = Widget Function(SFieldState<T, SFieldWidget<T>> field);
+
 abstract class SFieldWidget<T> extends StatefulWidget {
+  /// Form field name.
   final String name;
 
+  /// Form field widget builder.
+  final TFieldWidgetBuilder? builder;
+
   const SFieldWidget({
-    Key? key,
+    super.key,
     required this.name,
-  }) : super(key: key);
+    this.builder,
+  });
 
   @protected
   @override
-  SFieldState<T> createState();
+  SFieldState<T, SFieldWidget<T>> createState();
 }
 
-abstract class SFieldState<T> extends State<SFieldWidget<T>>
+abstract class SFieldState<T, W extends SFieldWidget<T>> extends State<W>
     implements SFieldProxy<T> {
   /// Form controller.
   late final SFormController _controller;
@@ -43,19 +50,21 @@ abstract class SFieldState<T> extends State<SFieldWidget<T>>
     super.initState();
 
     _controller = FormProvider.of(context);
-    _field = _controller.register(widget.name)..addListener(_notify);
-    _controller.stateSubject.addListener(_notify);
+    _field = _controller.register(widget.name)..addListener(notify);
+    _controller.stateSubject.addListener(notify);
   }
 
   @override
   void dispose() {
-    _field.removeListener(_notify);
-    _controller.stateSubject.removeListener(_notify);
+    _field.removeListener(notify);
+    _controller.stateSubject.removeListener(notify);
 
     super.dispose();
   }
 
-  void _notify() => setState(() {});
+  /// Notifies about a field change.
+  @mustCallSuper
+  void notify() => setState(() {});
 
   /// Proxy for [SFormFieldSubject.setValue].
   @override
@@ -72,4 +81,11 @@ abstract class SFieldState<T> extends State<SFieldWidget<T>>
   /// Proxy for [SFormFieldSubject.reset].
   @override
   void reset() => _field.reset();
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.builder != null) return widget.builder!(this);
+
+    throw UnimplementedError();
+  }
 }
