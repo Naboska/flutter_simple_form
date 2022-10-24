@@ -18,5 +18,8 @@ typedef SFormValidationHandler = Future<SFormErrorValues> Function(
   SFormValues values,
 );
 
+/// Function for submitting a form, see [SFormController.handleSubmit].
+typedef SFormSubmitHandler = Future<void> Function(SFormValues values);
+
 /// Function for create [SFormController].
 typedef SFormControllerCreate = SFormController Function(BuildContext context);

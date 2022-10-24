@@ -22,7 +22,7 @@ class _InheritedFieldsElement extends InheritedElement {
 
   /// We save the fields for subscribers who need to be notified.
   ///
-  /// [FormProvider.fieldsOf], [FormProvider.valuesOf].
+  /// [SFormProvider.fieldsOf], [SFormProvider.valuesOf].
   final _dirty = <String, bool>{};
 
   _InheritedFieldsElement(_FormFieldsProvider widget) : super(widget) {

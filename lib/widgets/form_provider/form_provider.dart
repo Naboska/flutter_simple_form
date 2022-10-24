@@ -10,7 +10,7 @@ part 'form_state_provider.dart';
 ///
 /// Implements methods for subscribing to changing values [SFormState]
 /// and fields [SFormFieldState].
-class FormProvider extends StatefulWidget {
+class SFormProvider extends StatefulWidget {
   /// Child for the provider, can accept any [Widget].
   final Widget child;
 
@@ -20,12 +20,12 @@ class FormProvider extends StatefulWidget {
   final SFormController? controller;
 
   /// The creator function for the [SFormController], its closure is guaranteed
-  /// by the [FormProvider] after destruction from the tree.
+  /// by the [SFormProvider] after destruction from the tree.
   ///
   /// You can't put a [create] at the same time with [controller].
   final SFormControllerCreate? create;
 
-  const FormProvider({
+  const SFormProvider({
     super.key,
     required this.child,
     this.controller,
@@ -92,10 +92,10 @@ class FormProvider extends StatefulWidget {
   }
 
   @override
-  State<FormProvider> createState() => _FormProviderState();
+  State<SFormProvider> createState() => _SFormProviderState();
 }
 
-class _FormProviderState extends State<FormProvider> {
+class _SFormProviderState extends State<SFormProvider> {
   /// The form provider created or forwarded will be created only once.
   late final SFormController _formController;
   late final bool _isCreated;

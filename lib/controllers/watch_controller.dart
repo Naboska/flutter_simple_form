@@ -41,7 +41,7 @@ class SWatchController {
 
   /// Creates [SWatchController] from [BuildContext].
   SWatchController(BuildContext context) {
-    _controller = FormProvider.of(context);
+    _controller = SFormProvider.of(context);
     _controller.fieldsSubject.addListener(_updateWatchers);
   }
 

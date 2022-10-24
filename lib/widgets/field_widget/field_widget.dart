@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_simple_form/flutter_simple_form.dart';
 
-typedef TFieldWidgetBuilder<T> = Widget Function(SFieldState<T, SFieldWidget<T>> field);
+typedef TFieldWidgetBuilder<T> = Widget Function(
+    SFieldState<T, SFieldWidget<T>> field);
 
 abstract class SFieldWidget<T> extends StatefulWidget {
   /// Form field name.
@@ -49,7 +50,7 @@ abstract class SFieldState<T, W extends SFieldWidget<T>> extends State<W>
   void initState() {
     super.initState();
 
-    _controller = FormProvider.of(context);
+    _controller = SFormProvider.of(context);
     _field = _controller.register(widget.name)..addListener(notify);
     _controller.stateSubject.addListener(notify);
   }

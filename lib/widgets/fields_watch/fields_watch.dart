@@ -8,24 +8,24 @@ part 'types.dart';
 /// the time of changing the [fields].
 class SFieldsWatch extends StatelessWidget {
   /// Observed fields.
-  final Set<String> fields;
+  final Set<String>? fields;
 
   /// Called every time the [fields] are updated.
   final SFieldsWatchBuilder builder;
 
   const SFieldsWatch({
     Key? key,
-    required this.fields,
+    this.fields,
     required this.builder,
   }) : super(key: key);
 
   /// The [Builder] subscribes to the [fields] change.
   @override
   Widget build(BuildContext context) {
-    final controller = FormProvider.of(context);
+    final controller = SFormProvider.of(context);
 
     return Builder(builder: (context) {
-      FormProvider.fieldsOf(context, fields);
+      SFormProvider.fieldsOf(context, fields ?? <String>{});
 
       return builder(context, controller.fields);
     });
