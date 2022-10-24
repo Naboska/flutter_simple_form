@@ -243,8 +243,8 @@ class STextField extends SFieldWidget<String> {
 }
 
 class STextFieldState extends SFieldState<String, STextField> {
+  late final TextEditingController controller;
   final focusNode = FocusNode();
-  final controller = TextEditingController();
 
   String get _currentValue => controller.text;
 
@@ -257,6 +257,7 @@ class STextFieldState extends SFieldState<String, STextField> {
       focusNode.removeListener(touchListener);
     }
 
+    controller = TextEditingController(text: state.value);
     focusNode.addListener(touchListener);
   }
 

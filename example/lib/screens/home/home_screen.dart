@@ -18,7 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _formController = SFormController();
+    _formController = SFormController(
+      initialValues: {'username': 'Arzamax'},
+    );
   }
 
   Future<void> _onFormSubmit(SFormValues values) async {
@@ -52,10 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Builder(
                   builder: (BuildContext context) {
                     final form = SFormProvider.stateOf(context);
-                    final isDisabled = form.isSubmitting || !form.isDirty;
 
                     return ElevatedButton(
-                      onPressed: isDisabled
+                      onPressed: form.isSubmitting
                           ? null
                           : () => _formController.handleSubmit(_onFormSubmit),
                       child: Text(
