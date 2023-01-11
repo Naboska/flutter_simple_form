@@ -12,7 +12,10 @@ part 'form_state_provider.dart';
 /// and fields [SFormFieldState].
 class SFormProvider extends StatefulWidget {
   /// Child for the provider, can accept any [Widget].
-  final Widget child;
+  final Widget? child;
+
+  /// Called one time the form create.
+  final TransitionBuilder? builder;
 
   /// The [SFormController] you created, you need to close it yourself.
   ///
@@ -27,11 +30,14 @@ class SFormProvider extends StatefulWidget {
 
   const SFormProvider({
     super.key,
-    required this.child,
     this.controller,
     this.create,
+    this.child,
+    this.builder,
   })  : assert(controller != null || create != null,
             'you need to create a SFormController'),
+        assert(child != null || builder != null,
+            'you need add child or create builder'),
         assert(
             (controller == null && create != null) ||
                 (controller != null && create == null),
@@ -117,11 +123,13 @@ class _SFormProviderState extends State<SFormProvider> {
 
   @override
   Widget build(BuildContext context) {
+    final child = widget.child;
+
     return _FormStateProvider(
       controller: _formController,
       child: _FormFieldsProvider(
         controller: _formController,
-        child: widget.child,
+        child: child ?? Builder(builder: (ctx) => widget.builder!(ctx, child)),
       ),
     );
   }
