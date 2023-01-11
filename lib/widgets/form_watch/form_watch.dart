@@ -29,13 +29,13 @@ class SFormWatch extends StatelessWidget {
   /// to the fields.
   @override
   Widget build(BuildContext context) {
-    final controller = FormProvider.of(context);
+    final controller = SFormProvider.of(context);
 
     return Builder(builder: (context) {
-      FormProvider.stateOf(context);
+      SFormProvider.stateOf(context);
 
       if (fields != null || watchAll) {
-        FormProvider.fieldsOf(context, fields ?? <String>{});
+        SFormProvider.fieldsOf(context, fields ?? <String>{});
       }
 
       return builder(context, controller);

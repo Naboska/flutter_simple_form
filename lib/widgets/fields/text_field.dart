@@ -1,8 +1,10 @@
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-export 'package:flutter/services.dart';
 import 'package:flutter_simple_form/flutter_simple_form.dart';
-import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
+export 'package:flutter/services.dart';
 
 typedef STextFieldDecorationBuilder = InputDecoration Function(
   SFieldState<String, STextField> field,
@@ -241,10 +243,23 @@ class STextField extends SFieldWidget<String> {
 }
 
 class STextFieldState extends SFieldState<String, STextField> {
+  late final TextEditingController controller;
   final focusNode = FocusNode();
-  final controller = TextEditingController();
 
   String get _currentValue => controller.text;
+
+  @override
+  void initState() {
+    super.initState();
+
+    void touchListener() {
+      touch();
+      focusNode.removeListener(touchListener);
+    }
+
+    controller = TextEditingController(text: state.value);
+    focusNode.addListener(touchListener);
+  }
 
   @override
   void dispose() {
@@ -266,8 +281,8 @@ class STextFieldState extends SFieldState<String, STextField> {
       controller: controller,
       focusNode: focusNode,
       onChanged: setValue,
-      decoration:
-          widget.decorationBuilder?.call(this, widget.decoration) ?? widget.decoration,
+      decoration: widget.decorationBuilder?.call(this, widget.decoration) ??
+          widget.decoration,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,

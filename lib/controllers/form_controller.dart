@@ -111,6 +111,19 @@ class SFormController {
     isDispose = true;
   }
 
+  /// Function for sending the form accepts a callback that will be called
+  /// if the form is valid.
+  Future<void> handleSubmit(SFormSubmitHandler? onSubmit) async {
+    if (state.isSubmitting) return;
+
+    stateSubject.startSubmitting();
+    final bool isValid = await triggerValidate();
+
+    if (isValid && onSubmit != null) await onSubmit(values);
+
+    stateSubject.stopSubmitting();
+  }
+
   /// Registers a new field if it does not exist.
   ///
   /// Creates a subscription to change the field [SFormFieldState] to change

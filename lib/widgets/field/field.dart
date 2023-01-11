@@ -57,22 +57,22 @@ class SField<T> extends StatelessWidget {
   /// Registers or retrieves an existing field and
   /// returns a [SFieldProxy] for management.
   SFieldProxy<T> _getProxyField(BuildContext context) {
-    final controller = FormProvider.of(context);
+    final controller = SFormProvider.of(context);
     final field = controller.register(name);
 
     return SFieldProxy<T>(field);
   }
 
   /// Build will be called once, in the future Builder will be redrawn
-  /// depending on the change in the state of the form [FormProvider.stateOf]
-  /// or field [FormProvider.fieldsOf].
+  /// depending on the change in the state of the form [SFormProvider.stateOf]
+  /// or field [SFormProvider.fieldsOf].
   @override
   Widget build(BuildContext context) {
     final field = _getProxyField(context);
 
     return Builder(builder: (context) {
-      final formState = FormProvider.stateOf(context);
-      FormProvider.fieldsOf(context, {name});
+      final formState = SFormProvider.stateOf(context);
+      SFormProvider.fieldsOf(context, {name});
 
       return builder(context, field, formState);
     });

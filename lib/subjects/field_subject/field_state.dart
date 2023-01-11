@@ -92,7 +92,7 @@ class SFormFieldState<T> {
   String toString() {
     return '''
 ---------------------------------
-SFormFieldState<$T>:
+SFormFieldState<${value.runtimeType}>:
 -value: $value
 -errorMessage: $errorMessage  
 -isDirty: $isDirty

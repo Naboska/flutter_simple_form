@@ -10,9 +10,12 @@ part 'form_state_provider.dart';
 ///
 /// Implements methods for subscribing to changing values [SFormState]
 /// and fields [SFormFieldState].
-class FormProvider extends StatefulWidget {
+class SFormProvider extends StatefulWidget {
   /// Child for the provider, can accept any [Widget].
-  final Widget child;
+  final Widget? child;
+
+  /// Called one time the form create.
+  final TransitionBuilder? builder;
 
   /// The [SFormController] you created, you need to close it yourself.
   ///
@@ -20,18 +23,21 @@ class FormProvider extends StatefulWidget {
   final SFormController? controller;
 
   /// The creator function for the [SFormController], its closure is guaranteed
-  /// by the [FormProvider] after destruction from the tree.
+  /// by the [SFormProvider] after destruction from the tree.
   ///
   /// You can't put a [create] at the same time with [controller].
   final SFormControllerCreate? create;
 
-  const FormProvider({
+  const SFormProvider({
     super.key,
-    required this.child,
     this.controller,
     this.create,
+    this.child,
+    this.builder,
   })  : assert(controller != null || create != null,
             'you need to create a SFormController'),
+        assert(child != null || builder != null,
+            'you need add child or create builder'),
         assert(
             (controller == null && create != null) ||
                 (controller != null && create == null),
@@ -92,10 +98,10 @@ class FormProvider extends StatefulWidget {
   }
 
   @override
-  State<FormProvider> createState() => _FormProviderState();
+  State<SFormProvider> createState() => _SFormProviderState();
 }
 
-class _FormProviderState extends State<FormProvider> {
+class _SFormProviderState extends State<SFormProvider> {
   /// The form provider created or forwarded will be created only once.
   late final SFormController _formController;
   late final bool _isCreated;
@@ -117,11 +123,13 @@ class _FormProviderState extends State<FormProvider> {
 
   @override
   Widget build(BuildContext context) {
+    final child = widget.child;
+
     return _FormStateProvider(
       controller: _formController,
       child: _FormFieldsProvider(
         controller: _formController,
-        child: widget.child,
+        child: child ?? Builder(builder: (ctx) => widget.builder!(ctx, child)),
       ),
     );
   }

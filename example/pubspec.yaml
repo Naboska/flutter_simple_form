@@ -1,0 +1,21 @@
+name: flutter_simple_form_example
+description: Demonstrates how to use the flutter_simple_form library.
+version: 1.0.7
+homepage: https://github.com/Naboska/flutter_simple_form
+
+environment:
+  sdk: '>=2.17.3 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_simple_form:
+    path: ../
+
+flutter:
+  uses-material-design: true
