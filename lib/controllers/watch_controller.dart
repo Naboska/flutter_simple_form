@@ -36,18 +36,21 @@ class SWatchController {
   late final SFormController _controller;
   final _watch = <String, ObserverList<SWatchListener>>{};
   final _all = ObserverList<SWatchListener>();
-  final _only = <String, VoidCallback>{};
+  final _watchers = <String, VoidCallback>{};
+
   bool _isDispose = false;
 
   /// Creates [SWatchController] from [BuildContext].
   SWatchController(BuildContext context) {
     _controller = SFormProvider.of(context);
     _controller.fieldsSubject.addListener(_updateWatchers);
+    _updateWatchers();
   }
 
   /// Creates [SWatchController] from [SFormController].
   SWatchController.from(this._controller) {
     _controller.fieldsSubject.addListener(_updateWatchers);
+    _updateWatchers();
   }
 
   /// Listens to one or more fields.
@@ -69,11 +72,9 @@ class SWatchController {
 
   /// Called when this [SWatchController] is removed permanently.
   void dispose() {
-    final fields = _controller.fieldsSubject;
-
     _isDispose = true;
-    fields.removeListener(_updateWatchers);
-    _only.forEach(_unsubscribeField);
+    _controller.fieldsSubject.removeListener(_updateWatchers);
+    _watchers.forEach(_unsubscribeField);
   }
 
   /// Internal method.
@@ -81,21 +82,24 @@ class SWatchController {
   /// Notifies subscribers about field changes.
   void _updateWatchers() {
     final fields = _controller.fieldsSubject.value;
-    _all.forEach(_notify);
-    fields.keys.forEach(_updateField);
+
+    for (final field in fields.entries) {
+      if (_watchers.keys.contains(field.key)) continue;
+
+      field.value.addListener(
+        _watchers[field.key] = () => _updateField(field.key),
+      );
+
+      _updateField(field.key);
+    }
   }
 
   /// Internal method.
   ///
   /// Notifies the listeners of the field about the change.
-  ///
-  /// If there are no subscribers or subscribers are created,
-  /// the function is ignored.
   void _updateField(String name) {
-    if (_watch[name] == null || _only[name] != null) return;
-
-    final obs = (_only[name] = () => _watch[name]!.forEach(_notify))..call();
-    _controller.fieldsSubject.value[name]!.addListener(obs);
+    _all.forEach(_notify);
+    _watch[name]?.forEach(_notify);
   }
 
   /// Internal method.
