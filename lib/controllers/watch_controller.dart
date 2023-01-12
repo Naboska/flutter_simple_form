@@ -98,6 +98,9 @@ class SWatchController {
   ///
   /// Notifies the listeners of the field about the change.
   void _updateField(String name) {
+    final field = _controller.fieldsSubject.getField(name)!;
+    if (field.state.value == field.prevValue.value) return;
+
     _all.forEach(_notify);
     _watch[name]?.forEach(_notify);
   }
