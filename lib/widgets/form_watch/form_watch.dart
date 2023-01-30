@@ -6,6 +6,9 @@ part 'types.dart';
 /// Notifies the builder of changes in the state of the form [SFormState]
 /// and fields [SFormFieldState].
 class SFormWatch extends StatelessWidget {
+  /// Fallback [SFormController] for the widget.
+  final SFormController? controller;
+
   /// Observed fields.
   final Set<String>? fields;
 
@@ -17,6 +20,7 @@ class SFormWatch extends StatelessWidget {
 
   const SFormWatch({
     Key? key,
+    this.controller,
     this.fields,
     this.watchAll = false,
     required this.builder,
@@ -29,9 +33,9 @@ class SFormWatch extends StatelessWidget {
   /// to the fields.
   @override
   Widget build(BuildContext context) {
-    final controller = SFormProvider.of(context);
+    Widget result = Builder(builder: (context) {
+      final controller = SFormProvider.of(context);
 
-    return Builder(builder: (context) {
       SFormProvider.stateOf(context);
 
       if (fields != null || watchAll) {
@@ -40,5 +44,14 @@ class SFormWatch extends StatelessWidget {
 
       return builder(context, controller);
     });
+
+    if (controller != null) {
+      result = SFormProvider(
+        controller: controller,
+        child: result,
+      );
+    }
+
+    return result;
   }
 }
