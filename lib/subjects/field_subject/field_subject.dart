@@ -74,8 +74,8 @@ class SFormFieldSubject<T> extends BaseSubject<SFormFieldState<T>> {
 
   /// Resets the state([SFormFieldState]) to the initial one.
   @override
-  void reset([SFormFieldState<T>? resetValue]) {
-    resetValue = resetValue ?? SFormFieldState<T>(value: initialValue);
+  void reset([dynamic resetValue]) {
+    resetValue = SFormFieldState<T>(value: resetValue ?? initialValue);
 
     super.reset(resetValue);
   }
