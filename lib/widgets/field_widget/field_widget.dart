@@ -5,6 +5,9 @@ typedef TFieldWidgetBuilder<T> = Widget Function(
     SFieldState<T, SFieldWidget<T>> field);
 
 abstract class SFieldWidget<T> extends StatefulWidget {
+  /// Fallback [SFormController] for the widget.
+  final SFormController? controller;
+
   /// Form field name.
   final String name;
 
@@ -13,6 +16,7 @@ abstract class SFieldWidget<T> extends StatefulWidget {
 
   const SFieldWidget({
     super.key,
+    this.controller,
     required this.name,
     this.builder,
   });
@@ -50,7 +54,7 @@ abstract class SFieldState<T, W extends SFieldWidget<T>> extends State<W>
   void initState() {
     super.initState();
 
-    _controller = SFormProvider.of(context);
+    _controller = (widget.controller ?? SFormProvider.of(context));
     _field = _controller.register(widget.name)..addListener(notify);
     _controller.stateSubject.addListener(notify);
   }

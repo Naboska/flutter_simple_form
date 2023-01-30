@@ -39,6 +39,9 @@ part 'types.dart';
 /// }
 /// ```
 class SField<T> extends StatelessWidget {
+  /// Fallback [SFormController] for the widget.
+  final SFormController? controller;
+
   /// Name of the field in the form.
   final String name;
 
@@ -47,10 +50,11 @@ class SField<T> extends StatelessWidget {
   final SFieldBuilder<T> builder;
 
   const SField({
-    Key? key,
+    super.key,
+    this.controller,
     required this.name,
     required this.builder,
-  }) : super(key: key);
+  });
 
   /// Internal method.
   ///
@@ -68,13 +72,22 @@ class SField<T> extends StatelessWidget {
   /// or field [SFormProvider.fieldsOf].
   @override
   Widget build(BuildContext context) {
-    final field = _getProxyField(context);
-
-    return Builder(builder: (context) {
+    Widget result = Builder(builder: (context) {
+      final field = _getProxyField(context);
       final formState = SFormProvider.stateOf(context);
+
       SFormProvider.fieldsOf(context, {name});
 
       return builder(context, field, formState);
     });
+
+    if (controller != null) {
+      result = SFormProvider(
+        controller: controller,
+        child: result,
+      );
+    }
+
+    return result;
   }
 }

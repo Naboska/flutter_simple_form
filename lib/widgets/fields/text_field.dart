@@ -169,6 +169,7 @@ class STextField extends SFieldWidget<String> {
   final bool enableIMEPersonalizedLearning;
 
   const STextField({
+    super.controller,
     required super.name,
     super.key,
     this.decorationBuilder,
