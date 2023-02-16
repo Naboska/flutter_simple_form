@@ -140,7 +140,7 @@ class SFormController {
       final field = fieldsSubject.getField(name);
       if (field == null || !field.isDirty) return;
 
-      final bool isEqual = field.value.isEqual(field.prevValue);
+      final isEqual = field.value.isEqualWithoutError(field.prevValue);
       if (!isEqual) triggerValidate();
       stateSubject.handleDirty();
     });
