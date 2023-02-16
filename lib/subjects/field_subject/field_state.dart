@@ -81,8 +81,12 @@ class SFormFieldState<T> {
   }
 
   bool isEqual(SFormFieldState? fieldState) {
+    return errorMessage == fieldState?.errorMessage &&
+        isEqualWithoutError(fieldState);
+  }
+
+  bool isEqualWithoutError(SFormFieldState? fieldState) {
     return value == fieldState?.value &&
-        errorMessage == fieldState?.errorMessage &&
         isDirty == fieldState?.isDirty &&
         isTouched == fieldState?.isTouched;
   }
