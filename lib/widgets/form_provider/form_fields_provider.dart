@@ -4,10 +4,9 @@ class _FormFieldsProvider extends InheritedWidget {
   final SFormController controller;
 
   const _FormFieldsProvider({
-    Key? key,
     required this.controller,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(_FormFieldsProvider oldWidget) => false;
@@ -26,6 +25,8 @@ class _InheritedFieldsElement extends InheritedElement {
   final _dirty = <String, bool>{};
 
   _InheritedFieldsElement(_FormFieldsProvider widget) : super(widget) {
+    if (_controller.fieldsSubject.value.isNotEmpty) _updateFields();
+
     _controller.fieldsSubject.addListener(_updateFields);
   }
 
