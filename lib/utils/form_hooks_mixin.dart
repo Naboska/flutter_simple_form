@@ -3,15 +3,15 @@ import 'package:flutter_simple_form/flutter_simple_form.dart';
 
 /// Provides easy access to change subscriptions in the form.
 mixin SFormHooksMixin<T extends StatefulWidget> on State<T> {
+  late final SFormController form;
   late final SWatchController _watchController;
-
-  SFormController get form => SFormProvider.of(context);
 
   @override
   void initState() {
     super.initState();
 
-    _watchController = SWatchController(context);
+    form = SFormProvider.of(context);
+    _watchController = SWatchController.from(form);
   }
 
   @override
